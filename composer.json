@@ -1,0 +1,26 @@
+{
+    "name": "password_verify/backend",
+    "description": "Password Verify",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "src\\": "src/",
+            "tests\\": "tests/"
+        },
+        "files": []
+    },
+    "scripts": {
+        "php-unit": "vendor/bin/phpunit tests/Unit",
+        "php-coverage": "vendor/bin/phpunit --coverage-html tests/coverage/"
+    },
+    "authors": [
+        {
+            "name": "Jhonatan Henkel",
+            "email": "jhowrf@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "kint-php/kint": "^4.1",
+        "phpunit/phpunit": "^9"
+    }
+}
