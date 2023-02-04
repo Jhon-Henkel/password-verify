@@ -1,10 +1,9 @@
 <?php
 
-require_once __DIR__ . '/vendor/autoload.php';
+use \src\Tools\RequestTools;
 
-d(\src\Tools\RequestTools::inputPhpInput());
-d($_POST);
-d($_GET);
-d(file_get_contents('php://input'));
-d(\src\Tools\RequestTools::inputServer('REQUEST_METHOD'));
-die();
+require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/Router.php';
+
+$router = new Router();
+$router->run(RequestTools::inputServer('REQUEST_URI'));
