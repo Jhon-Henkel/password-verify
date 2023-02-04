@@ -6,6 +6,7 @@ O objetivo desse projeto é criar um validador de string conforme algumas regras
 ## *Como iniciar o projeto*
 Para iniciar asse projeto, basta executar os seguintes passos:
 - Rodar o comando **docker-compose up -d** pelo terminal dentro da pasta desse projeto.
+- Rodar o comando **composer-update** dentro do container **password_verify_app**.
 - Caso queira rodar coverage, deve-se ter o php debug instalado (No Dockerfile ja está instalando) e colocar o seguinte código no php.ini do container:
     ````
     [XDEBUG]
@@ -72,7 +73,7 @@ Para iniciar asse projeto, basta executar os seguintes passos:
   }
   ````
 - No retorno teremos dois parâmetros:
-  - ***verify***: é do tipo **boolean** retornando se a determinada string passou ou não nas regras.
+  - ***verify***: é do tipo **boolean** retornando se a determinada string violou ou não nas regras.
   - ***noMatch***: é do tipo **array** retornando as regras que essa string violou, caso não tenha violado nenhuma, será retornado um **array** vazio.
 ---
 ## *Lógica utilizada*
