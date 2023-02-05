@@ -65,4 +65,31 @@ class PasswordVerifyBO
         }
         return true;
     }
+
+    public function verify(stdClass $object): array
+    {
+        $ruleBO = new RuleBO();
+        $rulesVerified = array();
+        foreach ($object->rules as $rule) {
+            $ruleName = $rule->rule;
+            $rulesVerified[$rule->rule] = $ruleBO->$ruleName($object->password, $rule->value);
+        }
+        return $rulesVerified;
+    }
+
+    public function populateReturn(array $rulesResults): array
+    {
+        $return = array('verify' => true, 'noMatch' => array());
+        $rulesBroken = array();
+        foreach ($rulesResults as $rule => $result) {
+            if (!$result) {
+                $return['verify'] = false;
+                $rulesBroken[] = $rule;
+            }
+        }
+        if (!$return['verify']) {
+            $return['noMatch'][] = implode(', ', $rulesBroken);
+        }
+        return $return;
+    }
 }

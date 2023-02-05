@@ -11,6 +11,7 @@ class RequestToolsUnitTest extends TestCase
     public function testInputServer()
     {
         $_SERVER['aaa'] = 'bbb';
+
         $this->assertEquals('bbb', RequestTools::inputServer('aaa'));
     }
 
@@ -18,6 +19,7 @@ class RequestToolsUnitTest extends TestCase
     {
         $_SERVER[RequestEnum::REQUEST_METHOD] = RequestEnum::POST;
         $valid = RequestTools::isPostRequest();
+
         $this->assertTrue($valid);
     }
 
@@ -25,6 +27,7 @@ class RequestToolsUnitTest extends TestCase
     {
         $_SERVER[RequestEnum::REQUEST_METHOD] = 'GET';
         $valid = RequestTools::isPostRequest();
+
         $this->assertFalse($valid);
     }
 }

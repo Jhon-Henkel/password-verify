@@ -2,7 +2,7 @@
 
 use src\Tools\RequestTools;
 use src\Controller\PasswordVerifyController;
-use src\Api\Response;
+use src\API\Response;
 
 abstract class RouteSwitch
 {

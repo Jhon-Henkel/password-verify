@@ -24,7 +24,8 @@
             <directory suffix=".php">src</directory>
         </include>
         <exclude>
-            <directory>src/Api</directory>
+            <directory>src/API</directory>
+            <directory>src/Controller</directory>
             <directory>src/Enums</directory>
             <directory>src/Exceptions</directory>
         </exclude>

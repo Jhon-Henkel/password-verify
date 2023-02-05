@@ -2,6 +2,8 @@
 
 namespace src\Tools;
 
+use src\Enums\RulesEnum;
+
 class MessagesTools
 {
     public static function invalidAttributeType(string $attribute, string $type): string
@@ -21,6 +23,7 @@ class MessagesTools
 
     public static function invalidRule(string $rule): string
     {
-        return 'Regra inválida: ' . $rule . ', consulte a documentação!';
+        $rules = implode(', ', RulesEnum::getRulesArray());
+        return 'Regra inválida: ' . $rule . ', as regras válidas são: ' . $rules;
     }
 }

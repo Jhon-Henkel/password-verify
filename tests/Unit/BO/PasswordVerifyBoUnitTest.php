@@ -15,23 +15,24 @@ class PasswordVerifyBoUnitTest extends TestCase
 {
     private stdClass $object;
     private $passwordVerifyBoMock;
+    private array $rulesResults;
     
     protected function setUp(): void
     {
         $this->object = $this->makeTestObject();
         $this->passwordVerifyBoMock = $this->mockPasswordVerifyBo();
+        $this->rulesResults = $this->makeRuleResults();
     }
 
     private function makeTestObject(): stdClass
     {
-        $rule = new stdClass();
-        $rule->rule = RulesEnum::NO_REPEATED;
-        $rule->value = 2;
-
         $object = new stdClass();
         $object->password = 'test123';
-        $object->rules = array($rule);
-
+        $object->rules = array(
+            json_decode('{"rule": "minSize", "value": 2}'),
+            json_decode('{"rule": "minUppercase", "value": 1}'),
+            json_decode('{"rule": "minDigit", "value": 3}')
+        );
         return $object;
     }
 
@@ -40,6 +41,15 @@ class PasswordVerifyBoUnitTest extends TestCase
         $passwordVerifyBoMock = Mockery::mock(PasswordVerifyBO::class)->makePartial();
         $passwordVerifyBoMock->shouldAllowMockingProtectedMethods();
         return $passwordVerifyBoMock;
+    }
+
+    private function makeRuleResults(): array
+    {
+        return array(
+            'minSize' => true,
+            'minUppercase' => true,
+            'minDigit' => true
+        );
     }
 
     protected function tearDown(): void
@@ -151,9 +161,11 @@ class PasswordVerifyBoUnitTest extends TestCase
     public function testValidateRulesPostWithInvalidRule()
     {
         $this->object->rules[0]->rule = 'aaa';
+        $expectMessage = 'Regra inválida: aaa, as regras válidas são: minDigit, ';
+        $expectMessage .= 'minLowercase, minSize, minSpecialChars, minUppercase, noRepeated';
 
         $this->expectExceptionMessage(InvalidRuleException::class);
-        $this->expectExceptionMessage('Regra inválida: aaa, consulte a documentação!');
+        $this->expectExceptionMessage($expectMessage);
 
         $this->passwordVerifyBoMock->validateRulesPost($this->object->rules);
     }
@@ -161,5 +173,74 @@ class PasswordVerifyBoUnitTest extends TestCase
     public function testValidateRulesPostWithValidRule()
     {
         $this->assertTrue($this->passwordVerifyBoMock->validateRulesPost($this->object->rules));
+    }
+
+    public function testVerifyWithRulesReturnTrue()
+    {
+        $this->object->password = 'Teste123';
+        $verify = $this->passwordVerifyBoMock->verify($this->object);
+
+        $this->assertIsArray($verify);
+        $this->assertCount(3, $verify);
+        $this->assertTrue($verify[RulesEnum::MIN_SIZE]);
+        $this->assertTrue($verify[RulesEnum::MIN_UPPERCASE]);
+        $this->assertTrue($verify[RulesEnum::MIN_DIGIT]);
+    }
+
+    public function testVerifyWithOneRuleBroken()
+    {
+        $this->object->password = 'Teste';
+        $verify = $this->passwordVerifyBoMock->verify($this->object);
+
+        $this->assertIsArray($verify);
+        $this->assertCount(3, $verify);
+        $this->assertTrue($verify[RulesEnum::MIN_SIZE]);
+        $this->assertTrue($verify[RulesEnum::MIN_UPPERCASE]);
+        $this->assertFalse($verify[RulesEnum::MIN_DIGIT]);
+    }
+
+    public function testVerifyWithThreeRulesBroken()
+    {
+        $this->object->password = 'q';
+        $verify = $this->passwordVerifyBoMock->verify($this->object);
+
+        $this->assertIsArray($verify);
+        $this->assertCount(3, $verify);
+        $this->assertFalse($verify[RulesEnum::MIN_SIZE]);
+        $this->assertFalse($verify[RulesEnum::MIN_UPPERCASE]);
+        $this->assertFalse($verify[RulesEnum::MIN_DIGIT]);
+    }
+
+    public function testPopulateReturnWithOneRuleBroken()
+    {
+        $this->rulesResults[RulesEnum::MIN_UPPERCASE] = false;
+        $return = $this->passwordVerifyBoMock->populateReturn($this->rulesResults);
+
+        $this->assertIsArray($return);
+        $this->assertCount(2, $return);
+        $this->assertFalse($return['verify']);
+        $this->assertEquals(array(RulesEnum::MIN_UPPERCASE), $return['noMatch']);
+    }
+
+    public function testPopulateReturnWithThreeRulesBroken()
+    {
+        $this->rulesResults[RulesEnum::MIN_UPPERCASE] = false;
+        $this->rulesResults[RulesEnum::MIN_DIGIT] = false;
+        $return = $this->passwordVerifyBoMock->populateReturn($this->rulesResults);
+
+        $this->assertIsArray($return);
+        $this->assertCount(2, $return);
+        $this->assertFalse($return['verify']);
+        $this->assertEquals(array("minUppercase, minDigit"), $return['noMatch']);
+    }
+
+    public function testPopulateReturnWithNoRulesBroken()
+    {
+        $return = $this->passwordVerifyBoMock->populateReturn($this->rulesResults);
+
+        $this->assertIsArray($return);
+        $this->assertCount(2, $return);
+        $this->assertTrue($return['verify']);
+        $this->assertEquals(array(), $return['noMatch']);
     }
 }

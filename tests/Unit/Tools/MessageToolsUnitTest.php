@@ -11,6 +11,7 @@ class MessageToolsUnitTest extends TestCase
     {
         $message = MessagesTools::invalidAttributeType('aaa', 'bbb');
         $expect = 'O atributo "aaa" deve ser do tipo bbb!';
+
         $this->assertEquals($expect, $message);
     }
 
@@ -18,6 +19,7 @@ class MessageToolsUnitTest extends TestCase
     {
         $message = MessagesTools::invalidAttributeContentType('aaa', 'bbb');
         $expect = 'O conteúdo de "aaa" deve ser do tipo bbb!';
+
         $this->assertEquals($expect, $message);
     }
 
@@ -25,13 +27,16 @@ class MessageToolsUnitTest extends TestCase
     {
         $message = MessagesTools::attributeMissing('aaa');
         $expect = 'Atributo obrigatório ausente: aaa';
+
         $this->assertEquals($expect, $message);
     }
 
     public function testInvalidRule()
     {
         $message = MessagesTools::invalidRule('aaa');
-        $expect = 'Regra inválida: aaa, consulte a documentação!';
+        $expect = 'Regra inválida: aaa, as regras válidas são: minDigit, ';
+        $expect .= 'minLowercase, minSize, minSpecialChars, minUppercase, noRepeated';
+
         $this->assertEquals($expect, $message);
     }
 }

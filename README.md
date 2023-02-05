@@ -68,10 +68,6 @@ Para iniciar asse projeto, basta executar os seguintes passos:
   - ***verify***: é do tipo **boolean** retornando se a determinada string violou ou não nas regras.
   - ***noMatch***: é do tipo **array** retornando as regras que essa string violou, caso não tenha violado nenhuma, será retornado um **array** vazio.
 ---
-## *Lógica utilizada* 
-- **Sistema de rotas**: utilizei a reescrita do apache para fazer as rotas e garantir que somente a rota verify seria utilizada e somente seria enviado post para essa rota.
-- **Validação de parâmetros post**: fiz um validador para validar se a regra enviada é válida, se os atributos obrigatórios estão sendo enviados e se o tipo de cada atributo está correto.
----
 ## *Como rodar os testes*
 - ***Unitários***: composer run php-unit
 - ***Coverage***: composer run php-coverage - Após rodar irá ficar em **tests/coverage**

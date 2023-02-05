@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Api;
+namespace src\API;
 
 use src\Enums\HttpStatusCode;
 
@@ -32,7 +32,7 @@ class Response
     {
         self::render(
             HttpStatusCode::BAD_REQUEST,
-            'Bad Request! ' . $message
+            $message
         );
     }
 

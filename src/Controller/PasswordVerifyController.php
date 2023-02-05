@@ -2,9 +2,11 @@
 
 namespace src\Controller;
 
-use src\Api\Response;
+use src\API\Response;
 use src\BO\PasswordVerifyBO;
+use src\Enums\HttpStatusCode;
 use src\Exceptions\AttributeMissingException;
+use src\Exceptions\InvalidRuleException;
 use src\Exceptions\InvalidTypeException;
 use stdClass;
 
@@ -21,9 +23,15 @@ class PasswordVerifyController
     {
         try {
             $this->bo->validatePostObject($object);
-            d($object);
-            die();
-        } catch (InvalidTypeException|AttributeMissingException $exception) {
+            $verify = $this->bo->verify($object);
+            $return = $this->bo->populateReturn($verify);
+            Response::render(HttpStatusCode::OK, $return);
+        } catch (
+            InvalidTypeException
+            |AttributeMissingException
+            |InvalidRuleException
+            $exception
+        ) {
             Response::renderBadRequest($exception->getMessage());
         }
     }
