@@ -27,4 +27,13 @@ class Response
             'Não encontrado!'
         );
     }
+
+    public static function renderBadRequest(?string $message): void
+    {
+        self::render(
+            HttpStatusCode::BAD_REQUEST,
+            'Bad Request! ' . $message
+        );
+    }
+
 }

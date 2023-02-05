@@ -11,6 +11,10 @@ class RequestTools
         return $_SERVER[$key] ?? null;
     }
 
+    /**
+     * @return object|null
+     * @codeCoverageIgnore
+     */
     public static function inputPhpInput(): ?object
     {
         return json_decode(file_get_contents('php://input')) ?? null;

@@ -37,24 +37,25 @@ Para iniciar asse projeto, basta executar os seguintes passos:
             "value": 2
         },
         {
-            "rule": "noRepeted",
+            "rule": "noRepeated",
             "value": 0
         }
     ]
   }
   ````
 ### Atributos
-- password: deve ser do tipo string.
-- rules: array de regras.
-  - rule: regra escolhida no formato string.
-  - value: valor para a regra no tipo int.
+- **password**: obrigatório, deve ser do tipo string.
+- **rules**: obrigatório, deve ser do tipo array de objetos.
+  - **rule**: regra escolhida no formato string.
+  - **value**: valor para a regra no tipo int.
+- **Obs.**: no mínimo uma regra deve ser informada.
 ### Tipos de regras aceitas
 - ***minSize***: quantidade minima de carácteres contidos na string informada.
 - ***minUppercase***: quantidade minima de carácteres maiúsculos na string informada.
 - ***minLowercase***: quantidade minima de carácteres minúsculo na string informada.
 - ***minDigit***: quantidade minima de carácteres numéricos na string informada.
 - ***minSpecialChars***: quantidade minima de carácteres especiais (!@#$%^&*()-+\/{}[]) na string informada.
-- ***noRepeted***: valida para que não tenha nenhum caractere repetido em sequência, ou seja, "aab" viola esta condição, mas "aba" não.
+- ***noRepeated***: valida para que não tenha nenhum caractere repetido em sequência, ou seja, "aab" viola esta condição, mas "aba" não.
 ### Retorno
 - O retorno será no formato ***json*** de acordo com o seguinte exemplo:
   ````
@@ -67,8 +68,9 @@ Para iniciar asse projeto, basta executar os seguintes passos:
   - ***verify***: é do tipo **boolean** retornando se a determinada string violou ou não nas regras.
   - ***noMatch***: é do tipo **array** retornando as regras que essa string violou, caso não tenha violado nenhuma, será retornado um **array** vazio.
 ---
-## *Lógica utilizada*
-
+## *Lógica utilizada* 
+- **Sistema de rotas**: utilizei a reescrita do apache para fazer as rotas e garantir que somente a rota verify seria utilizada e somente seria enviado post para essa rota.
+- **Validação de parâmetros post**: fiz um validador para validar se a regra enviada é válida, se os atributos obrigatórios estão sendo enviados e se o tipo de cada atributo está correto.
 ---
 ## *Como rodar os testes*
 - ***Unitários***: composer run php-unit
@@ -78,4 +80,5 @@ Para iniciar asse projeto, basta executar os seguintes passos:
 - ***Kint***: utilizado para debug no php.
 - ***Php Unit***: utilizado para testes unitários, testes de integração e relatório de coverage.
 - ***Composer***: utilizado para instalar as bibliotecas mencionadas aqui.
+- ***Mockery***: utilizado para mock em testes unitários.
 ---

@@ -24,7 +24,9 @@
             <directory suffix=".php">src</directory>
         </include>
         <exclude>
+            <directory>src/Api</directory>
             <directory>src/Enums</directory>
+            <directory>src/Exceptions</directory>
         </exclude>
     </coverage>
 </phpunit>
