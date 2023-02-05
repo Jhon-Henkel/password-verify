@@ -1,7 +1,5 @@
 <?php
 
-namespace RouteSwitch;
-
 use src\Enums\HttpStatusCode;
 use src\Tools\RequestTools;
 
@@ -10,12 +8,12 @@ abstract class RouteSwitch
     protected function verify(): void
     {
         d(RequestTools::inputPhpInput());
-        die();
+        die('caiu dentro do verify');
     }
 
     public function __call($name, $arguments): void
     {
         http_response_code(HttpStatusCode::NOT_FOUND);
-        exit('Not found');
+        exit(json_encode('Not found'));
     }
 }

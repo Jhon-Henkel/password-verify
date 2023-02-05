@@ -7,15 +7,6 @@ O objetivo desse projeto é criar um validador de string conforme algumas regras
 Para iniciar asse projeto, basta executar os seguintes passos:
 - Rodar o comando **docker-compose up -d** pelo terminal dentro da pasta desse projeto.
 - Rodar o comando **composer-update** dentro do container **password_verify_app**.
-- Caso queira rodar coverage, deve-se ter o php debug instalado (No Dockerfile ja está instalando) e colocar o seguinte código no php.ini do container:
-    ````
-    [XDEBUG]
-    zend_extension="xdebug.so"
-    xdebug.mode=coverage
-    xdebug.client_host = 127.0.0.1
-    xdebug.client_port = 9003
-    xdebug.start_with_request=trigger
-    ````
 ---
 ## *Documentação*
 ### Endpoint

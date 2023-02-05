@@ -1,6 +1,6 @@
 <?php
 
-use RouteSwitch\RouteSwitch;
+require_once __DIR__ . '/RouteSwitch.php';
 
 class Router extends RouteSwitch
 {
