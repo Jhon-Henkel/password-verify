@@ -1,19 +1,23 @@
 <?php
 
-use src\Enums\HttpStatusCode;
 use src\Tools\RequestTools;
+use src\Controller\PasswordVerifyController;
+use src\Api\Response;
 
 abstract class RouteSwitch
 {
     protected function verify(): void
     {
-        d(RequestTools::inputPhpInput());
-        die('caiu dentro do verify');
+        if (!RequestTools::isPostRequest()) {
+            Response::renderMethodNotAllowed();
+        }
+        $controller = new PasswordVerifyController();
+        $controller->verifyPassword(RequestTools::inputPhpInput());
+        unset($controller);
     }
 
     public function __call($name, $arguments): void
     {
-        http_response_code(HttpStatusCode::NOT_FOUND);
-        exit(json_encode('Not found'));
+        Response::renderNotFound();
     }
 }
