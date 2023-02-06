@@ -38,10 +38,7 @@ class RuleBO
     public function noRepeated(string $password): bool
     {
         $arrayChars = str_split($password);
-        for ($index = 0; $index < count($arrayChars); $index ++) {
-            if ($index == count($arrayChars) - 1) {
-                break;
-            }
+        for ($index = 0; $index < (count($arrayChars) - 1); $index ++) {
             $atualChar = $arrayChars[$index];
             $nextChar = $arrayChars[$index + 1];
             if ($atualChar == $nextChar) {
