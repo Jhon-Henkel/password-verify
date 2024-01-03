@@ -3,7 +3,7 @@ Backend para um validador de senhas.
 
 O objetivo desse projeto é criar um validador de string por api, conforme algumas regras que podem ser informadas junto com a string.
 
-Quer ver online? a url da api é: http://password-verify.jhonhenkel.kinghost.net/verify
+Quer ver online? a url da api é: https://password-verify.jhon.dev.br/verify
 
 ## *Como iniciar o projeto*
 Para iniciar asse projeto, basta executar os seguintes passos:
